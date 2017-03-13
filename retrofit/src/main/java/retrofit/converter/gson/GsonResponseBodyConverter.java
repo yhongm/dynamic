@@ -25,7 +25,7 @@ final class GsonResponseBodyConverter<T> implements retrofit.Converter<ResponseB
         JsonReader jsonReader = gson.newJsonReader(value.charStream());
         try {
             return adapter.read(jsonReader);
-        } finally {
+        }  finally {
             value.close();
         }
     }

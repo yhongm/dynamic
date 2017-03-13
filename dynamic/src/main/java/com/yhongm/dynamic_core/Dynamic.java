@@ -54,6 +54,7 @@ public class Dynamic {
         checkNotNull(responseType, "type==null");
         checkNotNull(annotations, "annotation==null");
         int start = convertFactorys.indexOf(skipPast) + 1;
+        Log.i("Dynamic", "15:16/stringConverer:convertFactorysSize:" + convertFactorys.size());// yhongm 2017/03/13 15:16
         Log.i("Dynamic", "17:56/nextResponseBodyConverter:start:" + start);// yhongm 2017/03/09 17:56
         for (int i = start, count = convertFactorys.size(); i < count; i++) {
             Converter<?, ?> converter = convertFactorys.get(i).resultConverter(responseType, annotations, this);
@@ -61,10 +62,11 @@ public class Dynamic {
                 return converter;
             }
         }
-        throw new IllegalArgumentException("");
+        throw new IllegalArgumentException("没有找到匹配的转换器");
     }
 
     public <T> Converter<T, String> stringConverer(Type parameterType, Annotation[] parameterAnnotations) {
+
         for (int i = 0, count = convertFactorys.size(); i < count; i++) {
             Converter<?, String> converter = convertFactorys.get(i).inputConverter(parameterType, parameterAnnotations, this);
             if (converter != null) {

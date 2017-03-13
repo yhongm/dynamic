@@ -1,5 +1,7 @@
 package com.yhongm.dynamic_core.convert;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
@@ -38,11 +40,9 @@ public class JsonToBeanConvertFactory extends Converter.Factory {
 
     @Override
     public Converter<JSONObject, ?> resultConverter(Type type, Annotation[] annotations, Dynamic dynamic) {
-        if (Utils.getRawType(type) == JSONObject.class) {
-            TypeAdapter<?> adapter = gson.getAdapter(TypeToken.get(type));
-            return new JsonToBeanConverter(gson, adapter);
-        }
-        return null;
+        Log.i("JsonToBean", "15:13/resultConverter:jsonObject,type:" + Utils.getRawType(type));// yhongm 2017/03/13 15:13
+        TypeAdapter<?> adapter = gson.getAdapter(TypeToken.get(type));
+        return new JsonToBeanConverter(gson, adapter);
 
     }
 
