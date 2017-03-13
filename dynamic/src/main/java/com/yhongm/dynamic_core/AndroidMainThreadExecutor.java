@@ -2,7 +2,6 @@ package com.yhongm.dynamic_core;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 
 import java.util.concurrent.Executor;
 
@@ -19,7 +18,7 @@ public class AndroidMainThreadExecutor {
         Handler handler = new Handler(Looper.getMainLooper());
 
         @Override
-        public void execute(@NonNull Runnable command) {
+        public void execute(Runnable command) {
             handler.post(command);
         }
     }
