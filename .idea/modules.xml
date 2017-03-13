@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/demo/demo.iml" filepath="$PROJECT_DIR$/demo/demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/dynamic.iml" filepath="$PROJECT_DIR$/dynamic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dynamic/dynamic-dynamic.iml" filepath="$PROJECT_DIR$/dynamic/dynamic-dynamic.iml" />
     </modules>
   </component>
 </project>

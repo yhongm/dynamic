@@ -1,4 +1,4 @@
-package com.yhongm.test;
+package com.yhongm.demo;
 
 import java.util.List;
 

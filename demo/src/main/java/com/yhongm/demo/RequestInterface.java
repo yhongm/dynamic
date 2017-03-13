@@ -1,6 +1,4 @@
-package com.yhongm.test;
-
-import java.util.ArrayList;
+package com.yhongm.demo;
 
 import retrofit.Call;
 import retrofit.http.GET;

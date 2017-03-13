@@ -1,4 +1,4 @@
-package com.yhongm.test;
+package com.yhongm.demo;
 
 import com.yhongm.dynamic_core.Result;
 import com.yhongm.dynamic_core.annotation.MethodAnnotation;
