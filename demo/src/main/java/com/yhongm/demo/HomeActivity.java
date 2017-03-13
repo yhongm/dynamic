@@ -25,6 +25,7 @@ public class HomeActivity extends Activity {
         Result<TestBean> me = helloRequest.test(strs, 10);
         Response<TestBean> execute = me.execute();
         TestBean response = execute.getResponse();
+        String s = execute.getS();
         Log.i("HomeActivity", "17:37/onCreate:str,testBean:" + response.toString());// yhongm 2017/03/09 17:37
         Log.i("HomeActivity", "15:42/onCreate:testBeanSize:" + response.getNewslist().size());// yhongm 2017/03/13 15:42
     }
