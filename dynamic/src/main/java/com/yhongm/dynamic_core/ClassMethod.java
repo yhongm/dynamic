@@ -19,12 +19,12 @@ import java.lang.reflect.Type;
 
 class ClassMethod<R, T> {
     ParameterHandler<?>[] parameterHandlers;
-    Converter<JSONObject, R> converter;
+    Converter<JSONObject, R> responseConverter;
     ResultAdapter<R, T> resultAdapter;//R为类型，T为转换后的类型
 
     public ClassMethod(Builder builder) {
         this.parameterHandlers = builder.parameterHandlers;
-        this.converter = builder.responseConverter;
+        this.responseConverter = builder.responseConverter;
         this.resultAdapter = builder.resultAdapter;
     }
 
@@ -51,11 +51,11 @@ class ClassMethod<R, T> {
 
 
 //    public R toResponse(String s) throws IOException {
-//        return converter.conver(s);
+//        return responseConverter.conver(s);
 //    }
 
     public R toResponse(JSONObject jsonObject) throws IOException {
-        return converter.conver(jsonObject);
+        return responseConverter.conver(jsonObject);
     }
 
     public static class Builder<T, R> {
@@ -160,9 +160,11 @@ class ClassMethod<R, T> {
             Type returnType = method.getGenericReturnType();
             if (Utils.hasUnresolvableType(returnType)) {
                 //抛出异常
+                throw new IllegalArgumentException("返回类型错误");
             }
             if (returnType == Void.class) {
                 //抛出异常
+                throw new IllegalArgumentException("返回类型为空");
             }
             Annotation[] annotations = method.getAnnotations();
             Log.i("Builder", "18:21/createCallAdapter:annotations:" + annotations.length);// yhongm 2017/03/09 18:21
