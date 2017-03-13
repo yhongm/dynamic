@@ -1,1 +1,1 @@
-include ':dynamic', ':retrofit'
+include ':dynamic'
