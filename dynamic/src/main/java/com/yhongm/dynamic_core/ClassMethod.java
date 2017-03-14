@@ -17,7 +17,7 @@ import java.lang.reflect.Type;
  * Created by yhongm on 2017/03/08.
  */
 
-class ClassMethod<R, T> {
+public class ClassMethod<R, T> {
     ParameterHandler<?>[] parameterHandlers;
     Converter<JSONObject, R> responseConverter;
     ResultAdapter<R, T> resultAdapter;//R为类型，T为转换后的类型

@@ -23,6 +23,13 @@ public class Dynamic {
     private static Map<Method, ClassMethod<?, ?>> clsMethodCache = new ConcurrentHashMap<>();
     private final ArrayList<Converter.Factory> convertFactorys;
     private final ArrayList<ResultAdapter.Factory> callAdapterFactorys;
+    private HandleResult handleResult;
+
+    public Dynamic(ArrayList<Converter.Factory> converterFactorys, ArrayList<ResultAdapter.Factory> callAdapterFactorys, HandleResult handleResult) {
+        this.convertFactorys = converterFactorys;
+        this.callAdapterFactorys = callAdapterFactorys;
+        this.handleResult = handleResult;
+    }
 
     public Dynamic(ArrayList<Converter.Factory> converterFactorys, ArrayList<ResultAdapter.Factory> callAdapterFactorys) {
         this.convertFactorys = converterFactorys;
@@ -77,6 +84,7 @@ public class Dynamic {
     public static class Builder {
         ArrayList<Converter.Factory> converterFactorys = new ArrayList<>();
         ArrayList<ResultAdapter.Factory> callAdapterFactorys = new ArrayList<>();
+        private HandleResult handleResult = null;
 
         public Builder() {
             AndroidMainThreadExecutor androidPlatform = new AndroidMainThreadExecutor();
@@ -85,8 +93,18 @@ public class Dynamic {
             callAdapterFactorys.add(new ExecutorResultAdapteFactory(androidPlatform.getExecutor()));
         }
 
+        public Builder handleResult(HandleResult result) {
+            this.handleResult = result;
+            return this;
+        }
+
         public Dynamic build() {
-            return new Dynamic(converterFactorys, callAdapterFactorys);
+            if (handleResult == null) {
+                return new Dynamic(converterFactorys, callAdapterFactorys);
+            } else {
+                return new Dynamic(converterFactorys, callAdapterFactorys, handleResult);
+            }
+
         }
     }
 
@@ -101,8 +119,16 @@ public class Dynamic {
                     method.invoke(this, args);
                 }
                 ClassMethod<Object, Object> classMethod = (ClassMethod<Object, Object>) loadClsMethod(method);
-                HandleResult<Object> handleCall = new HandleResult<>(classMethod, args);
-                Object adapter = classMethod.resultAdapter.adapter(handleCall);
+                HandleResult result;
+                if (handleResult != null) {
+
+                    result = handleResult;
+                    result.setArgs(classMethod, args);
+                } else {
+                    result = new HandleResult<>();
+                    result.setArgs(classMethod, args);
+                }
+                Object adapter = classMethod.resultAdapter.adapter(result);
                 return adapter;
             }
         });
