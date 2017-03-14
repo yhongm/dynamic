@@ -26,10 +26,11 @@ public class HandleResult<T> implements Result<T> {
      * 将结果转换之后返回
      *
      * @param er
+     * @param s
      * @return
      * @throws IOException
      */
-    protected Response<T> parseResponse(ExecuteResponse er) throws IOException {
+    protected Response<T> parseResponse(ExecuteResponse er, String s) throws IOException {
         T response = null;
         try {
 
@@ -38,7 +39,7 @@ public class HandleResult<T> implements Result<T> {
             e.printStackTrace();
         }
 
-        return Response.success(response, er.getBody().toString());
+        return Response.success(response, s);
     }
 
     /**
