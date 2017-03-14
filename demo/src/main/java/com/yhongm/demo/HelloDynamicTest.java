@@ -8,7 +8,7 @@ import com.yhongm.dynamic_core.annotation.MethodParameter;
  * Created by yhongm on 2017/03/09.
  */
 
-public interface HelloRequest {
+public interface HelloDynamicTest {
     @MethodAnnotation("yhongm")
     Result<TestBean> test(@MethodParameter("hello") String[] str, @MethodParameter("mi") int mi);
 }

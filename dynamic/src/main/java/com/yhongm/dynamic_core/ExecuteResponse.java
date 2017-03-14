@@ -5,7 +5,7 @@ package com.yhongm.dynamic_core;
  */
 
 public class ExecuteResponse<T> {
-    T body;
+    private T body;
 
     public void setBody(T body) {
         this.body = body;

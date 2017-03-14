@@ -90,6 +90,10 @@ public class Dynamic {
             callAdapterFactorys.add(new ExecutorResultAdapteFactory(androidPlatform.getExecutor()));
         }
 
+        public void addConvertFactory(Converter.Factory factory) {
+            converterFactorys.add(factory);
+        }
+
         public Builder handleResult(HandleResult result) {
             this.handleResult = result;
             return this;

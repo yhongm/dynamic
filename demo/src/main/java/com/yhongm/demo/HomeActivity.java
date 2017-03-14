@@ -20,7 +20,7 @@ public class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Dynamic dynamic = new Dynamic.Builder().handleResult(new TestHandleResult()).build();
-        HelloRequest helloRequest = dynamic.create(HelloRequest.class);
+        HelloDynamicTest helloRequest = dynamic.create(HelloDynamicTest.class);
         String[] strs = new String[]{"123", "888", "999", "0000"};
         Result<TestBean> me = helloRequest.test(strs, 10);
         Response<TestBean> execute = me.execute();
