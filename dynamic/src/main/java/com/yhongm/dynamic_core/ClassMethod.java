@@ -1,11 +1,7 @@
 package com.yhongm.dynamic_core;
 
-import android.util.Log;
-
 import com.yhongm.dynamic_core.annotation.MethodAnnotation;
 import com.yhongm.dynamic_core.annotation.MethodParameter;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -18,18 +14,22 @@ import java.lang.reflect.Type;
  */
 
 public class ClassMethod<R, T> {
+    private final String methodAnnotationValue;
+    private final String methodAnnotation;
     ParameterHandler<?>[] parameterHandlers;
-    Converter<JSONObject, R> responseConverter;
+    Converter<ExecuteResponse, R> responseConverter;
     ResultAdapter<R, T> resultAdapter;//R为类型，T为转换后的类型
 
     public ClassMethod(Builder builder) {
         this.parameterHandlers = builder.parameterHandlers;
         this.responseConverter = builder.responseConverter;
         this.resultAdapter = builder.resultAdapter;
+        this.methodAnnotation = builder.methodAnnotation;
+        this.methodAnnotationValue = builder.methodAnnotationValue;
     }
 
     public String handleParameterArgs(Object[] args) {
-        ParameterBuilder parameterBuilder = new ParameterBuilder();
+        ParameterBuilder parameterBuilder = new ParameterBuilder(methodAnnotation, methodAnnotationValue);
         int argumentLeng = args != null ? args.length : 0;
         ParameterHandler<Object>[] handlers = (ParameterHandler<Object>[]) parameterHandlers;
         if (argumentLeng != parameterHandlers.length) {
@@ -38,8 +38,6 @@ public class ClassMethod<R, T> {
 
         }
         for (int i = 0; i < argumentLeng; i++) {
-            Log.i("ClassMethod", "10:23/handleParameterArgs:handler[i]:" + handlers[i].toString());// yhongm 2017/03/10 10:23
-            Log.i("ClassMethod", "10:22/handleParameterArgs:agrs[i]:" + args[i]);// yhongm 2017/03/10 10:22
             try {
                 handlers[i].apply(parameterBuilder, args[i]);
             } catch (IOException e) {
@@ -54,8 +52,8 @@ public class ClassMethod<R, T> {
 //        return responseConverter.conver(s);
 //    }
 
-    public R toResponse(JSONObject jsonObject) throws IOException {
-        return responseConverter.conver(jsonObject);
+    public R toResponse(ExecuteResponse executeResponse) throws IOException {
+        return responseConverter.conver(executeResponse);
     }
 
     public static class Builder<T, R> {
@@ -67,7 +65,7 @@ public class ClassMethod<R, T> {
         Type responseType;
         ResultAdapter<T, R> resultAdapter;
         Converter<T, R> responseConverter;
-        String methodAnnotation;
+        private String methodAnnotation;
         private String methodAnnotationValue;
         ParameterHandler[] parameterHandlers;
 
@@ -143,12 +141,13 @@ public class ClassMethod<R, T> {
             if (annotation instanceof MethodAnnotation) {
                 this.methodAnnotation = "methodAnnotation";
                 String methodAnnotationValue = ((MethodAnnotation) annotation).value();
-                parseMethodAndValue(methodAnnotation, methodAnnotationValue);
+                parseMethodAndValue(annotation.annotationType().getSimpleName(), methodAnnotationValue);
             }
         }
 
         private void parseMethodAndValue(String methodAnnotation, String methodAnnotationValue) {
             this.methodAnnotationValue = methodAnnotationValue;
+            this.methodAnnotation = methodAnnotation;
         }
 
         private Converter createResponseConverter() {
@@ -167,7 +166,6 @@ public class ClassMethod<R, T> {
                 throw new IllegalArgumentException("返回类型为空");
             }
             Annotation[] annotations = method.getAnnotations();
-            Log.i("Builder", "18:21/createCallAdapter:annotations:" + annotations.length);// yhongm 2017/03/09 18:21
             return (ResultAdapter<T, R>) dynamic.callAdapter(returnType, annotations);
         }
     }

@@ -2,6 +2,7 @@ package com.yhongm.demo;
 
 import android.util.Log;
 
+import com.yhongm.dynamic_core.ExecuteResponse;
 import com.yhongm.dynamic_core.HandleResult;
 import com.yhongm.dynamic_core.Response;
 
@@ -19,6 +20,7 @@ public class TestHandleResult<T> extends HandleResult<T> {
     @Override
     public Response<T> execute() {
         String s = HandleParameter();
+        Log.i("TestHandleResult", "14:51/execute:s:" + s);// yhongm 2017/03/14 14:51
         long l = System.currentTimeMillis();
         String date = new Date(l).toString();
         Log.i("TestHandleResult", "10:56/execute:");// yhongm 2017/03/14 10:56
@@ -41,10 +43,12 @@ public class TestHandleResult<T> extends HandleResult<T> {
     }
 
     private Response<T> parseResponse(JSONObject s) throws IOException {
+        ExecuteResponse er = new ExecuteResponse();
+        er.setBody(s);
         T response = null;
         try {
 
-            response = classMethod.toResponse(s);
+            response = classMethod.toResponse(er);
         } catch (Exception e) {
             e.printStackTrace();
         }

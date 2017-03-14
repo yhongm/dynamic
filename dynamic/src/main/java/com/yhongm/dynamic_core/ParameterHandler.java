@@ -1,7 +1,5 @@
 package com.yhongm.dynamic_core;
 
-import android.util.Log;
-
 import java.io.IOException;
 import java.lang.reflect.Array;
 
@@ -64,9 +62,7 @@ abstract class ParameterHandler<T> {
         void apply(ParameterBuilder pb, T value) {
             try {
                 pb.setKeyAndValue(name, converter.conver(value));
-                Log.i("MethodParamether", "10:22/apply:value:" + value);// yhongm 2017/03/13 10:22
             } catch (Exception e) {
-                Log.i("MethodParamether", "apply e:" + e.toString());
             }
 
         }

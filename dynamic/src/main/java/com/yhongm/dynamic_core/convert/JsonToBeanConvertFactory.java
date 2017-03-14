@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.yhongm.dynamic_core.Converter;
 import com.yhongm.dynamic_core.Dynamic;
+import com.yhongm.dynamic_core.ExecuteResponse;
 import com.yhongm.dynamic_core.Utils;
 
 import org.json.JSONObject;
@@ -39,14 +40,15 @@ public class JsonToBeanConvertFactory extends Converter.Factory {
     }
 
     @Override
-    public Converter<JSONObject, ?> resultConverter(Type type, Annotation[] annotations, Dynamic dynamic) {
+    public JsonToBeanConverter<ExecuteResponse<JSONObject>> resultConverter(Type type, Annotation[] annotations, Dynamic dynamic) {
         Log.i("JsonToBean", "15:13/resultConverter:jsonObject,type:" + Utils.getRawType(type));// yhongm 2017/03/13 15:13
-        TypeAdapter<?> adapter = gson.getAdapter(TypeToken.get(type));
-        return new JsonToBeanConverter(gson, adapter);
+
+        TypeAdapter<ExecuteResponse<JSONObject>> adapter = (TypeAdapter<ExecuteResponse<JSONObject>>) gson.getAdapter(TypeToken.get(type));
+        return new JsonToBeanConverter<ExecuteResponse<JSONObject>>(gson, adapter);
 
     }
 
-    public static class JsonToBeanConverter<T> implements Converter<JSONObject, T> {
+    public static class JsonToBeanConverter<T> implements Converter<ExecuteResponse<JSONObject>, T> {
 
         private final Gson gson;
         private final TypeAdapter<T> adapter;
@@ -56,9 +58,11 @@ public class JsonToBeanConvertFactory extends Converter.Factory {
             this.adapter = adapter;
         }
 
+
         @Override
-        public T conver(JSONObject value) throws IOException {
-            StringReader reader = new StringReader(value.toString());
+        public T conver(ExecuteResponse<JSONObject> value) throws IOException {
+            JSONObject body = value.getBody();
+            StringReader reader = new StringReader(body.toString());
             JsonReader jsonReader = new JsonReader(reader);
             T read = adapter.read(jsonReader);
             return read;

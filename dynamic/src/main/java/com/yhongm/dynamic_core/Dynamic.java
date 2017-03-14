@@ -1,7 +1,5 @@
 package com.yhongm.dynamic_core;
 
-import android.util.Log;
-
 import com.yhongm.dynamic_core.convert.JsonToBeanConvertFactory;
 
 import java.lang.annotation.Annotation;
@@ -43,7 +41,6 @@ public class Dynamic {
     private ResultAdapter<?, ?> nextCallAdapter(ResultAdapter.Factory skipPast, Type returnType, Annotation[] annotations) {
 
         int start = callAdapterFactorys.indexOf(skipPast) + 1;
-        Log.i("Dynamic", "17:51/nextCallAdapter:start:" + start);// yhongm 2017/03/09 17:51
         for (int i = start, count = callAdapterFactorys.size(); i < count; i++) {
             ResultAdapter<?, ?> resultAdapter = callAdapterFactorys.get(i).get(returnType, annotations, this);
             if (resultAdapter != null) {
@@ -114,7 +111,6 @@ public class Dynamic {
         return (T) Proxy.newProxyInstance(cls.getClassLoader(), new Class[]{cls}, new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                Log.i("Dynamic", "18:23/invoke:method:" + method.getName() + "args[0]:" + args[0]);// yhongm 2017/03/09 18:23
                 if (method.getDeclaringClass() == Object.class) {
                     method.invoke(this, args);
                 }

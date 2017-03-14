@@ -2,6 +2,8 @@ package com.yhongm.dynamic_core;
 
 import android.util.Log;
 
+import com.yhongm.dynamic_core.convert.JsonToBeanConvertFactory;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -22,7 +24,7 @@ public interface Converter<R, T> {//R为需要转换的类型，T为转换后的
             return null;
         }
 
-        public Converter<JSONObject, ?> resultConverter(Type type, Annotation[] annotations, Dynamic dynamic) {
+        public JsonToBeanConvertFactory.JsonToBeanConverter<ExecuteResponse<JSONObject>> resultConverter(Type type, Annotation[] annotations, Dynamic dynamic) {
             Log.i("Factory", "15:21/resultConverter:");// yhongm 2017/03/13 15:21
             return null;
         }
