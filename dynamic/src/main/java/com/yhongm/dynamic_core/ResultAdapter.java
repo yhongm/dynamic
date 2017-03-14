@@ -14,9 +14,5 @@ public interface ResultAdapter<R, T> {
 
     abstract class Factory {
         public abstract ResultAdapter<?, ?> get(Type returnType, Annotation[] annotations, Dynamic dynamic);
-
-        protected static Class<?> getRawType(Type type) {
-            return Utils.getRawType(type);
-        }
     }
 }
