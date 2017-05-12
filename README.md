@@ -12,14 +12,16 @@
 3， 定义类继承Converter.Factory可以自定义转换器进行类型转换
 
 演示使用demo：
+</br>
 1,定义接口
-
+</br>
 public interface HelloDynamicTest {
     @MethodAnnotation("yhongm")
     Result<TestBean> test(@MethodParameter("hello") String[] str, @MethodParameter("mi") int mi);
 }
+</br>
 2，使用
-
+</br>
 Dynamic dynamic = new Dynamic.Builder().handleResult(new TestHandleResult()).build();
 
 HelloDynamicTest helloRequest = dynamic.create(HelloDynamicTest.class);
