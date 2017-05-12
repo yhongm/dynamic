@@ -4,13 +4,14 @@
 
 
 使用方法：
+</br>
 1，在module 中build.gradle添加依赖 compile project(path: ':dynamic')
-
+</br>
 2,自定义类继承HandleResult实现execute方法实现要处理的逻辑,HandleParameter方法返回方法上的注解和方法参数及方法参数注解的值，parseResponse方法
 转换结果到要接收的参数类型
-
-3， 定义类继承Converter.Factory可以自定义转换器进行类型转换
-
+</br>
+3，定义类继承Converter.Factory可以自定义转换器进行类型转换
+</br>
 演示使用demo：
 </br>
 1,定义接口
